@@ -29,6 +29,7 @@ INTRO
 .intro.hidden{
     opacity:0;
     transform:scale(1.2);
+    pointer-events:none;
 }
 
 .intro h1{
@@ -37,11 +38,13 @@ INTRO
     background:linear-gradient(90deg,#00f7ff,#00ff88);
     -webkit-background-clip: text;
     -webkit-text-fill-color:transparent;
+    text-align:center;
 }
 
 .intro p{
     opacity:.7;
     letter-spacing:3px;
+    text-align:center;
 }
 
 .hint{
@@ -50,10 +53,11 @@ INTRO
     opacity:0.7;
     letter-spacing:2px;
     animation:pulse 2s infinite;
+    text-align:center;
 }
 
 @keyframes pulse{
-    0%,100%{opacity:0.3;}
+    0%, 100%{opacity:0.3;}
     50%{opacity:0.8;}
 }
 
@@ -64,10 +68,16 @@ CONTAINER SEÇÕES
     width:100%;
     height:100vh;
     position:relative;
+    transition:all .7s cubic-bezier(.2,.8,.2,1);
+}
+
+.sections.focused{
+    filter:blur(0);
+    transform:scale(1);
 }
 
 /* =====================
-CARDS
+CAIXAS SEÇÕES
 ===================== */
 .section{
     position:absolute;
@@ -79,7 +89,7 @@ CARDS
     border-radius:18px;
     cursor:pointer;
     transition: all 0.5s ease;
-    overflow:hidden;
+    overflow:visible;
     animation:float 4s ease-in-out infinite;
 }
 
@@ -90,78 +100,64 @@ CARDS
     inset:0;
     background:linear-gradient(120deg,transparent,rgba(255,255,255,0.1),transparent);
     opacity:1;
+    transition:.6s;
 }
 
-/* hover card */
+.section:hover::before{
+    opacity:1;
+}
+
+/* hover */
 .section:hover{
     transform:scale(1.05);
     border-color:#00ffd0;
     box-shadow:0 0 25px rgba(0,255,200,0.4);
+    opacity:1;
 }
 
-/* =====================
-TÍTULOS
-===================== */
-
-.section h2{
-    font-size:1.8rem;
-    color:#fff;
+/* TITULOS */
+.section h2 {
+    font-size: 1.8rem;
+    color: #fff;           
+    opacity: 1;            
+    position: relative;
+    transition: all 0.3s ease;
     letter-spacing:2px;
     text-shadow:0 0 5px rgba(0,255,200,0.3);
-    transition:all .3s ease;
+    transform-origin:left center;
 }
 
-/* zoom hover */
+/* aumenta e dá brilho no hover */
 .section:hover h2{
-    transform:scale(1.15);
-    text-shadow:0 0 10px #0ff,0 0 20px #0ff;
+    transform:scale(1.2);
+    text-shadow:0 0 10px #0ff, 0 0 20px #0ff;
 }
 
-/* =====================
-TÍTULO DIREITA
-===================== */
-
-.title-right{
-    position:absolute;
-    top:20px;
-    right:20px;
-    text-align:right;
-}
-
-/* =====================
-CONTEÚDO
-===================== */
-
+/* CONTEÚDO ESCONDIDO */
 .content{
     opacity:0;
     transform:translateY(20px);
     transition:.4s;
     text-align:center;
+    overflow: hidden;
 }
 
-/* =====================
-CARD ABERTO
-===================== */
-
+/* SEÇÃO ATIVA */
 .section.active{
     width:80%;
     height:80%;
     top:10% !important;
     left:10% !important;
     z-index:20;
-
     background:rgba(10,10,10,0.95);
     box-shadow:0 0 60px rgba(0,255,200,0.2);
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-
-    padding:40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 40px;
+    transition: all 0.6s cubic-bezier(.2,.8,.2,1);
 }
-
-/* conteúdo aparece */
 
 .section.active .content{
     opacity:1;
@@ -169,80 +165,132 @@ CARD ABERTO
     max-width:90%;
 }
 
-/* título centralizado quando abre */
-
 .section.active h2{
-    position:relative !important;
-    top:auto !important;
-    right:auto !important;
-    left:auto !important;
-
-    text-align:center;
-    width:100%;
-
     font-size:2.5rem;
     margin-bottom:20px;
-
-    transform:none !important;
+    text-align:center;
+    transition:.4s;
 }
 
-/* =====================
-POSIÇÕES
-===================== */
-
+/* POSIÇÕES */
 #sobre{top:5%; left:5%;}
 #skills{bottom:5%; left:5%;}
 #projects{bottom:5%; right:5%;}
 #contato{top:5%; right:5%;}
 
-/* =====================
-FLOAT
-===================== */
-
+/* animação flutuar */
 @keyframes float{
-    0%{transform:translateY(0)}
-    50%{transform:translateY(-8px)}
-    100%{transform:translateY(0)}
+    0%{ transform:translateY(0px);}
+    50%{ transform:translateY(-8px);}
+    100%{ transform:translateY(0px);}
 }
 
 /* =====================
-NEON
+TITLE RIGHT
 ===================== */
+.title-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin:0;
+    font-size:1.8rem;
+    color:#fff;
+    text-align:right;
+    z-index:5;
+    transition: all 0.4s ease;
+    transform-origin:right center;
+}
 
-.neon-pro{
+.section.active .title-right{
     position:relative;
+    top:auto;
+    right:auto;
+    text-align:center;
+    width:100%;
+    margin-bottom:20px;
+}
+
+/* =====================
+NEON LEGÍVEL
+===================== */
+.neon-pro{
+    position: relative;
     color:#fff;
 }
 
+/* neon spans animadas */
 .neon-pro span{
     display:inline-block;
-    color:#0ff;
-    text-shadow:
-    0 0 5px #0ff,
-    0 0 10px #0ff,
-    0 0 20px #0ff;
-
-    animation:letterGlow 1.2s ease forwards;
+    color:#0ff;            
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+    animation: letterGlow 1.2s ease forwards;
+    mix-blend-mode: screen; 
 }
 
+/* animação glow */
 @keyframes letterGlow{
-    0%{opacity:.3}
-    50%{opacity:1}
-    100%{
-        opacity:1;
-        text-shadow:
-        0 0 10px #0ff,
-        0 0 20px #0ff,
-        0 0 30px #0ff;
-    }
+    0%{ opacity:0.3; }
+    50%{ opacity:1; text-shadow:0 0 5px #0ff,0 0 10px #0ff,0 0 20px #0ff; }
+    100%{ opacity:1; text-shadow:0 0 10px #0ff,0 0 20px #0ff,0 0 30px #0ff; }
 }
 
 /* =====================
-OUTROS CARDS SOMEM
+OCULTAR OUTROS CARDS AO ABRIR
 ===================== */
-
 .section.hidden-card{
     opacity:0;
     pointer-events:none;
-    transform:scale(.9);
+    transform:scale(0.9);
+    transition: all 0.4s ease;
+}
+
+/* =====================
+RESPONSIVO
+===================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .section { width:45%; height:35%; }
+  .section.active { width:85%; height:auto; top:7.5%; left:7.5%; padding:30px; }
+  .section.active h2 { font-size:2.2rem; }
+}
+
+/* Celular */
+@media (max-width: 600px) {
+  .intro h1 { font-size:2rem; }
+  .intro p { font-size:1rem; }
+  .hint { font-size:0.8rem; }
+
+  .section {
+    width:90%;
+    height:auto;
+    left:50%;
+    transform:translateX(-50%);
+    top:auto !important;
+    bottom:auto !important;
+    margin:10px 0;
+  }
+
+  .section h2 {
+    font-size:1.4rem;
+    transform-origin:center center;
+    text-align:center;
+  }
+
+  .section.active {
+    width:95%;
+    height:auto;
+    top:5%;
+    left:50%;
+    transform:translateX(-50%);
+    padding:20px;
+  }
+
+  .section.active h2 {
+    font-size:2rem;
+  }
+
+  .section.active .content {
+    max-width:100%;
+  }
 }

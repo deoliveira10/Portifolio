@@ -100,7 +100,7 @@ CAIXAS SEÇÕES
     inset:0;
     background:linear-gradient(120deg,transparent,rgba(255,255,255,0.1),transparent);
     opacity:1;
-    transition:.6s;
+    transition:.5s;
 }
 
 .section:hover::before{
@@ -129,7 +129,7 @@ CAIXAS SEÇÕES
 
 /* aumenta e dá brilho no hover */
 .section:hover h2{
-    transform:scale(1.2);
+    transform:scale(1);
     text-shadow:0 0 10px #0ff, 0 0 20px #0ff;
 }
 
@@ -139,14 +139,16 @@ CAIXAS SEÇÕES
     transform:translateY(20px);
     transition:.4s;
     text-align:center;
-    overflow: hidden;
+    overflow: visible;      /* ALTERADO: hidden → visible */
+    width: 100%;            /* ADICIONADO */
 }
 
-/* SEÇÃO ATIVA */
+/* SEÇÃO ATIVA - CORRIGIDA */
 .section.active{
     width:80%;
-    height:80%;
-    top:10% !important;
+    height: auto;           /* ALTERADO: 80% → auto */
+    max-height: 85vh;       /* ADICIONADO: limite de 85% da tela */
+    top:7.5% !important;
     left:10% !important;
     z-index:20;
     background:rgba(10,10,10,0.95);
@@ -157,6 +159,7 @@ CAIXAS SEÇÕES
     align-items: center;
     padding: 40px;
     transition: all 0.6s cubic-bezier(.2,.8,.2,1);
+    overflow-y: auto;       /* ADICIONADO: scroll se precisar */
 }
 
 .section.active .content{
@@ -245,52 +248,117 @@ OCULTAR OUTROS CARDS AO ABRIR
 }
 
 /* =====================
+ESTILOS PARA IMAGENS EM LINHA - ADICIONADO
+===================== */
+.carpro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Container das imagens em linha */
+.images-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.project-image {
+    width: 30%;
+    max-width: 180px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,255,200,0.2);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-image:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo para a lista */
+.carpro ul {
+    text-align: left;
+    margin-top: 15px;
+}
+
+.carpro li {
+    margin: 8px 0;
+}
+
+#functions {
+    text-align: center;
+    margin-top: 10px;
+    list-style: none;
+}
+
+/* =====================
 RESPONSIVO
 ===================== */
 
 /* Tablets */
 @media (max-width: 1024px) {
   .section { width:45%; height:35%; }
-  .section.active { width:85%; height:auto; top:7.5%; left:7.5%; padding:30px; }
+  .section.active { width:85%; height:auto; max-height: 85vh; top:7.5%; left:7.5%; padding:30px; }
   .section.active h2 { font-size:2.2rem; }
 }
 
 /* Celular */
+@media (max-width: 768px) {
+    .images-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .project-image {
+        width: 80%;
+        max-width: 250px;
+    }
+}
+
 @media (max-width: 600px) {
 
-    .intro h1{font-size: 1rem;}
-    .intro p {font-size: 0.8rem;}
-    .hint {font-size: 0.4rem}
+    .intro h1{font-size: 2rem;}
+    .intro p {font-size: 0.9rem;}
+    .hint {font-size: 0.7rem}
 
     .section{
-        width: 30%;
-        height: 15%;
-        border: none;
-        box-shadow:black;
-        opacity:0.5;
+        width: 40%;
+        height: auto;
+        min-height: 80px;
+        border: 1px solid rgba(255,255,255,0.2);
+        opacity:0.8;
     }
 
     .section h2{
-        font-size: 1rem;
+        font-size: 0.9rem;
         text-align: center;
-        webkit-transform-origin: center center;
     }
 
     .section.active {
-        width: 75%;
-        height: auto;
-        top:15%;
-        left:50%;
+        width: 85%;
+        max-height: 80vh;
+        top: 10% !important;
+        left: 7.5% !important;
         padding: 20px;
-        transform: translateX(-50%);
+        overflow-y: auto;
     }
 
     .section.active h2{
-        font-size: 1.7rem;
-        
+        font-size: 1.5rem;
     }
 
-    .section.active content{
+    .section.active .content{
         max-width: 100%;
+        font-size: 0.9rem;
+    }
+    
+    .project-image {
+        width: 80%;
+        max-width: 200px;
     }
 }
